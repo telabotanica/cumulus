@@ -1,24 +1,23 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "hash": "9bd20d37728e74e7b399b9f29d73573f",
     "content-hash": "f7037a554b83d68e1aae35d11ab886a5",
     "packages": [
         {
             "name": "telabotanica/tb-auth-php",
-            "version": "0.1.7",
+            "version": "0.1.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/telabotanica/tb-auth-php.git",
-                "reference": "235846889f89b45a920eabe8f65bfbede19ecf42"
+                "reference": "bb9baa91c257621167c6aeaf9903df046d2575e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/telabotanica/tb-auth-php/zipball/235846889f89b45a920eabe8f65bfbede19ecf42",
-                "reference": "235846889f89b45a920eabe8f65bfbede19ecf42",
+                "url": "https://api.github.com/repos/telabotanica/tb-auth-php/zipball/bb9baa91c257621167c6aeaf9903df046d2575e3",
+                "reference": "bb9baa91c257621167c6aeaf9903df046d2575e3",
                 "shasum": ""
             },
             "require": {
@@ -48,7 +47,7 @@
                 "tela-botanica",
                 "telabotanica"
             ],
-            "time": "2017-01-27 11:29:25"
+            "time": "2018-05-31T14:13:42+00:00"
         },
         {
             "name": "telabotanica/tb-base-rest-service",
@@ -92,7 +91,7 @@
                 "telabotanica",
                 "webservice"
             ],
-            "time": "2016-04-15 16:16:04"
+            "time": "2016-04-15T16:16:04+00:00"
         }
     ],
     "packages-dev": [],
