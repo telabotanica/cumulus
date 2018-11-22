@@ -336,20 +336,20 @@ class StockageTB implements CumulusInterface {
 		// requête
 		if ($recursive === true) {
 			$q = "SELECT path as folder_path,"
-				. "SUBSTR(path, LENGTH($path)+1) as folder, "
+				. "SUBSTR(path, CHAR_LENGTH($path)+1) as folder, "
 				. "SUM(size) as size, "
 				. "MAX(last_modification_date) as last_modification_date "
 				. "FROM cumulus_files "
 				. "WHERE path LIKE $pathLike";
 		} else {
 			$q = "SELECT IF("
-				. "LOCATE('/', path, LENGTH($path)+1) = 0,"
+				. "LOCATE('/', path, CHAR_LENGTH($path)+1) = 0,"
 				. "path,"
-				. "SUBSTR(path, 1, LOCATE('/', path, LENGTH($path)+1) - 1)"
+				. "SUBSTR(path, 1, LOCATE('/', path, CHAR_LENGTH($path)+1) - 1)"
 				. ") as folder_path, IF("
-				. "LOCATE('/', path, LENGTH($path)+1) = 0,"
-				. "SUBSTR(path, LENGTH($path)+1),"
-				. "SUBSTR(path, LENGTH($path)+1, LOCATE('/', path, LENGTH($path)+1) - LENGTH($path) - 1)"
+				. "LOCATE('/', path, CHAR_LENGTH($path)+1) = 0,"
+				. "SUBSTR(path, CHAR_LENGTH($path)+1),"
+				. "SUBSTR(path, CHAR_LENGTH($path)+1, LOCATE('/', path, CHAR_LENGTH($path)+1) - CHAR_LENGTH($path) - 1)"
 				. ") as folder, "
 				. "SUM(size) as size, "
 				. "MAX(last_modification_date) as last_modification_date "
