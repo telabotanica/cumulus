@@ -54,13 +54,14 @@ class StockageDisque {
 	 * @param type $nomFichier nom du fichier
 	 */
 	public function stockerFichier($infosFichier, $cheminDossier, $nomFichier) {
+
 		$cheminDossier = $this->preparerCheminDossier($cheminDossier);
 		$nomFichier = $this->desinfecterNomFichier($nomFichier);
 		// tantantan taaaaan !!!!
 		$destination_finale = $cheminDossier . $nomFichier;
-
 		// déplacement du fichier temporaire
 		$origine = $infosFichier['tmp_name'];
+
 		if (! $this->deplacerFichierSurDisque($origine, $destination_finale)) {
 			throw new Exception('disk storage: cannot move temporary file');
 		}
@@ -109,20 +110,21 @@ class StockageDisque {
 		if(is_uploaded_file($origine)) {
 			$deplacement = move_uploaded_file($origine, $destination);
 		} else {
-			$deplacement = rename($origine, $destination);	
+			$deplacement = rename($origine, $destination);
 		}
-		
+
 		return $deplacement;
-	}	
+	}
 
 	/**
 	 * Normalise et transforme un chemin relatif au stockage en chemin absolu;
 	 * crée ce dossier si besoin; retourne le chemin absolu si tout s'est bien
 	 * passé, false sinon
 	 */
-	protected function preparerCheminDossier($dossier_destination) {	
+	protected function preparerCheminDossier($dossier_destination) {
+
 		// normalisation du chemin du dossier parent
-		$dossier_destination = $this->desinfecterCheminDossier($dossier_destination);				
+		$dossier_destination = $this->desinfecterCheminDossier($dossier_destination);
 		$chemin_dossier_complet = $this->racine_stockage . $dossier_destination;
 
 		// création du dossier parent si besoin
@@ -138,7 +140,7 @@ class StockageDisque {
 
 	/**
 	 * Supprime les motifs potentiellements dangereux dans un chemin de dossier,
-	 * comme ".." ou plusieurs "/" à la suite; s'assure que 
+	 * comme ".." ou plusieurs "/" à la suite; s'assure que
 	 */
 	protected function desinfecterCheminDossier($chemin) {
 		// pour le moment on supprime les occurences de .. dans les dossiers et les // ou /// etc...
@@ -147,7 +149,7 @@ class StockageDisque {
 		$chemin = preg_replace("#($ds+)#", '/', $chemin);
 		// retire le séparateur de dossier de gauche s'il est présent et s'assure que celui de droite existe
 		$chemin = trim($chemin, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-		
+
 		return $chemin;
 	}
 

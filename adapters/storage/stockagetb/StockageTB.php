@@ -15,6 +15,10 @@ class StockageTB implements CumulusInterface {
 	public static $PERMISSION_READ = "permission_read";
 	public static $PERMISSION_WRITE = "permission_write";
 
+	// The file used to mark a folder (useful for empty ones):
+	public static $DUMMY_FILE_NAME = ".dummy";
+	public static $TMP_FOLDER_PATH = "/tmp";
+
 	/** Config passée par Cumulus.php */
 	protected $config;
 
@@ -436,6 +440,9 @@ class StockageTB implements CumulusInterface {
 		}
 		// vérification des droits
 		$clause .= " AND " . $this->getRightsCheckingClause();
+
+		// ignore the dummy file added for each folder
+		$clause .= " AND name != '" . StockageTB::$DUMMY_FILE_NAME . "'";
 
 		$data = $this->queryMultipleFiles($clause);
 
@@ -1030,4 +1037,32 @@ class StockageTB implements CumulusInterface {
 	public function getAttributesByKey($key ) {
 		return $this->getByKey($key);
 	}
+
+
+	/**
+         * Crée un nouveau répertoire contenant un fichier vide référencé en DB 
+         * (cumulus gère des fichiers, pas des répertoires en tant que tels :  
+         * sans ce fichier vide, cumulus n'a pas connaissance du répertoire
+         * parent).
+         */
+	public function createNewFolder($folderName, $path)  {
+		$dummyTmpFile = null;
+		$filePathSegments = array($path, $folderName);
+		$folderPath = join(DIRECTORY_SEPARATOR, $filePathSegments);
+		$tmpDummyFilePath = join(DIRECTORY_SEPARATOR, array(StockageTB::$TMP_FOLDER_PATH, StockageTB::$DUMMY_FILE_NAME));
+		$dummyFilePath = join(DIRECTORY_SEPARATOR, array($folderPath, StockageTB::$DUMMY_FILE_NAME));
+		// calcul de la clef
+		$key = $this->computeKey($dummyFilePath, StockageTB::$DUMMY_FILE_NAME);
+		if (!file_exists($tmpDummyFilePath)) {
+
+			fwrite($dummyTmpFile = fopen($tmpDummyFilePath, "w"), ".");
+			fclose($dummyTmpFile);
+		}
+    		$file_info = array('tmp_name' => $tmpDummyFilePath);
+		$storageInfo = $this->diskStorage->stockerFichier($file_info, $folderPath, StockageTB::$DUMMY_FILE_NAME);
+		$insertInfo = $this->insertFileReference($storageInfo, $folderPath, StockageTB::$DUMMY_FILE_NAME, $key, null, null, null, null, null);
+		return true;
+	}
+
+
 }
