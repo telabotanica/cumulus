@@ -217,7 +217,7 @@ class StockageTB implements CumulusInterface {
 		// possibilités d'avoir des droits
 		$isFileOwner = ($owner == $currentUserId);
 		$fileIsPublic = ($perms == null || $owner == null); // NULL or empty
-		$userIsInAllowedGroup = (! empty(array_intersect($groups, $currentUserGroups)));
+		$userIsInAllowedGroup = (! empty(array_intersect($groups, array_keys($currentUserGroups))));
 		$fileHasReadRightsForGroups = (strlen($perms) == 2 && in_array(substr($perms, 0, 1), array('r', 'w')));
 		$fileHasReadRightsForOthers = (strlen($perms) == 2 && in_array(substr($perms, 1, 1), array('r', 'w')));
 		$fileHasWriteRightsForGroups = (strlen($perms) == 2 && substr($perms, 0, 1) ==  'w');
