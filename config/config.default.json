@@ -21,7 +21,8 @@
 				"cumulus_admin"
 			],
 			"ignoreSSLIssues": false,
-			"headerName": "Authorization"
+			"headerName": "Authorization",
+			"cookieName": "tb_auth"
 		}
 	}
 }
